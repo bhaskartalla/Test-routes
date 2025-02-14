@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "src/app/email-input/page.tsx",
     "src/app/login/page.jsx",
-    "src/app/dfs-bfs/page.tsx"
+    "src/app/dfs-bfs/page.tsx",
+    "src/app/infinite-scroll/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

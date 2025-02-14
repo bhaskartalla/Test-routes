@@ -31,6 +31,9 @@ const App = () => {
         <li>
           <Link href='/dfs-bfs'>DFS and BFS</Link>
         </li>
+        <li>
+          <Link href='/infinite-scroll'>Inifinite Scroll</Link>
+        </li>
       </nav>
     </div>
   )
