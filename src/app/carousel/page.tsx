@@ -20,7 +20,7 @@ const Carousel: React.FC<CarouselProps> = () => {
     'https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/back01.jpg'
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [loadedImages, setLoadedImages] = useState<string[]>([])
+  const [loadedImages, setLoadedImages] = useState<string[]>(images)
 
   useEffect(() => {
     console.log('🚀 ~ loadedImages:', loadedImages)

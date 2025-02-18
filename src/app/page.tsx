@@ -34,6 +34,9 @@ const App = () => {
         <li>
           <Link href='/infinite-scroll'>Inifinite Scroll</Link>
         </li>
+        <li>
+          <Link href='/http2'>HTTP 2</Link>
+        </li>
       </nav>
     </div>
   )
