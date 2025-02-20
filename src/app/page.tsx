@@ -37,6 +37,9 @@ const App = () => {
         <li>
           <Link href='/http2'>HTTP 2</Link>
         </li>
+        <li>
+          <Link href='/autocomplete'>Auto Complete Search</Link>
+        </li>
       </nav>
     </div>
   )

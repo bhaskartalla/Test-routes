@@ -1,4 +1,4 @@
-import { Direction } from '@/types'
+import { Direction } from '@/types/dfs-bfs'
 
 export function getRandomIntInclusive(min: number, max: number) {
   const minCeiled = Math.ceil(min)

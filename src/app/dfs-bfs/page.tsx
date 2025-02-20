@@ -4,7 +4,13 @@
 
 'use client'
 
-import { Cell, Cordinate, CustomStyles, Direction, Position } from '@/types'
+import {
+  Cell,
+  Cordinate,
+  CustomStyles,
+  Direction,
+  Position,
+} from '@/types/dfs-bfs'
 import { delay, getRandomIntInclusive, permute } from '@/utils'
 import React, { useState, useEffect, useRef } from 'react'
 
