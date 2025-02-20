@@ -6,53 +6,81 @@ import SearchIcon from '@/assets/icons/search-icon.svg'
 import CrossIcon from '@/assets/icons/cross-icon.svg'
 import {
   CacheResultsType,
-  ResultType,
-  SearchResponseType,
+  RecipeType,
+  ResponseType,
 } from '@/types/autocomplete'
 
 const AutoComplete = () => {
   const [showAutoSearch, setShowAutoSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedResult, setSelectedResult] = useState('')
   const [cacheResults, setCacheResults] = useState<CacheResultsType>({})
-  const [searchResults, setSearchResults] = useState<SearchResponseType>(
-    {} as SearchResponseType
+  const [searchResults, setSearchResults] = useState<ResponseType>(
+    {} as ResponseType
   )
-  const [selectedIndex, setSelectedIndex] = useState(-1) // Track highlighted result
-  const inputRef = useRef<HTMLInputElement>(null)
-  const resultsRef = useRef<HTMLUListElement>(null)
+  const [selectedTabIndex, setSelectedTabIndex] = useState(-1)
 
-  useEffect(() => {
-    console.log('Cache Results:', cacheResults)
-  }, [searchResults, selectedResult, cacheResults])
+  const inputRef = useRef<HTMLInputElement>(null)
+  const resultRef = useRef<HTMLUListElement>(null)
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    const { metaKey, ctrlKey, key } = event
+    console.log('🚀 ~ handleKeyDown ~ event:', { metaKey, ctrlKey, key })
+
+    if (key === 'Escape') {
+      event.preventDefault()
+      setShowAutoSearch(false)
+      setSelectedTabIndex(-1)
+    }
+
+    if ((metaKey || ctrlKey) && key === 'k') {
+      event.preventDefault()
+      inputRef.current?.focus()
+    }
+
+    if (showAutoSearch && searchResults.recipes?.length) {
+      if (key === 'ArrowDown') {
+        event.preventDefault()
+        setSelectedTabIndex((prev) =>
+          prev < searchResults.recipes.length - 1 ? prev + 1 : 0
+        )
+      } else if (key === 'ArrowUp') {
+        event.preventDefault()
+        setSelectedTabIndex((prev) =>
+          prev > 0 ? prev - 1 : searchResults.recipes.length - 1
+        )
+      } else if (key === 'Enter' && selectedTabIndex !== -1) {
+        handleResultsClick(searchResults.recipes[selectedTabIndex].image)
+      }
+    }
+  }
 
   const fetchData = async (searchQuery: string) => {
     if (cacheResults[searchQuery] !== undefined) {
       setSearchResults((prev) => ({
         ...prev,
-        results: cacheResults[searchQuery],
+        recipes: cacheResults[searchQuery],
       }))
       return
     }
 
     const response = await fetch(
-      `https://google-search74.p.rapidapi.com/?query=${
-        searchQuery || 'all'
-      }&limit=10&related_keywords=true`,
-      {
-        method: 'GET',
-        headers: {
-          'x-rapidapi-host': 'google-search74.p.rapidapi.com',
-          'x-rapidapi-key':
-            '8d7f9fbf8amsh6c76b7dd75ed2b5p125aa8jsnce0632cc4f34',
-        },
-      }
+      `https://dummyjson.com/recipes/search?q=${searchQuery}`
     )
-
-    const results: SearchResponseType = await response.json()
-    setCacheResults((prev) => ({ ...prev, [searchQuery]: results.results }))
+    const results: ResponseType = await response.json()
+    setCacheResults((prev) => ({ ...prev, [searchQuery]: results.recipes }))
     setSearchResults(results)
   }
+
+  useEffect(() => {
+    console.log('🚀 ~ AutoComplete ~ searchResults:', searchResults)
+    // console.log('🚀 ~ AutoComplete ~ cacheResults:', cacheResults)
+    setShowAutoSearch(!!searchResults.recipes?.length || false)
+  }, [searchResults, cacheResults])
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [searchResults, selectedTabIndex])
 
   useEffect(() => {
     if (!searchQuery) return
@@ -60,10 +88,17 @@ const AutoComplete = () => {
     return () => clearTimeout(timer)
   }, [searchQuery])
 
-  const handleOnInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (selectedTabIndex >= 0 && resultRef.current) {
+      const focusedItem = resultRef.current.children[
+        selectedTabIndex
+      ] as HTMLElement
+      focusedItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  }, [selectedTabIndex])
+
+  const handleOnInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearchQuery(event?.target.value)
-    setSelectedIndex(-1) // Reset selection on new input
-  }
 
   const handleInputCross = () => {
     setSearchQuery('')
@@ -71,52 +106,21 @@ const AutoComplete = () => {
 
   const handleInputOnFocus = () => {
     setShowAutoSearch(true)
-    fetchData(searchQuery)
+    fetchData('')
   }
 
   const handleResultsClick = (url: string) => {
-    setSelectedResult(url)
     setShowAutoSearch(false)
     window.open(url, '_blank')
   }
-
-  // Handle keyboard navigation
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.metaKey && event.key === 'k') {
-      event.preventDefault()
-      inputRef.current?.focus()
-    }
-
-    if (showAutoSearch && searchResults.results.length > 0) {
-      if (event.key === 'ArrowDown') {
-        event.preventDefault()
-        setSelectedIndex((prev) =>
-          prev < searchResults.results.length - 1 ? prev + 1 : 0
-        )
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault()
-        setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : searchResults.results.length - 1
-        )
-      } else if (event.key === 'Enter' && selectedIndex !== -1) {
-        handleResultsClick(searchResults.results[selectedIndex].url)
-      }
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [searchResults, selectedIndex])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.main}>
         <h1>Auto Complete Search</h1>
-        <h2 className={styles.selectedResult}>{selectedResult}</h2>
         <div
           className={`${styles.inputWrapper} ${
-            showAutoSearch && searchResults?.results?.length
+            showAutoSearch && searchResults?.recipes?.length
               ? styles.inputWrapperFocus
               : ''
           }`}
@@ -128,7 +132,7 @@ const AutoComplete = () => {
           />
           <input
             ref={inputRef}
-            placeholder={'Search for Results'}
+            placeholder={'Search for Receipes (Cmd+k to focus)'}
             className={`${styles.searchInput} `}
             value={searchQuery}
             onChange={handleOnInputChange}
@@ -144,28 +148,29 @@ const AutoComplete = () => {
             />
           )}
         </div>
-        {showAutoSearch && searchResults?.results?.length ? (
+        {showAutoSearch && searchResults?.recipes?.length ? (
           <div className={styles.searchResultsParent}>
             <ul
-              ref={resultsRef}
+              tabIndex={1}
+              ref={resultRef}
               className={styles.searchResultsScrollable}
             >
-              {searchResults.results?.map((result: ResultType, index) => (
-                <li
-                  key={result.position}
-                  className={`${styles.autoSuggestion} ${
-                    index === selectedIndex ? styles.highlight : ''
-                  }`}
-                  onMouseDown={() => handleResultsClick(result.url)}
-                >
-                  {result.title}
-                </li>
-              ))}
+              {searchResults.recipes?.map(
+                (recipe: RecipeType, index: number) => (
+                  <li
+                    key={recipe.id}
+                    className={`${styles.autoSuggestion} ${
+                      selectedTabIndex === index ? styles.highlight : ''
+                    }`}
+                    onMouseDown={() => handleResultsClick(recipe.image)}
+                  >
+                    {recipe.name}
+                  </li>
+                )
+              )}
             </ul>
           </div>
-        ) : (
-          ''
-        )}
+        ) : null}
       </div>
     </div>
   )

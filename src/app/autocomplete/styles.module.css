@@ -75,21 +75,13 @@
 }
 
 .autoSuggestion {
-  padding: 6px 16px;
+  padding: 8px 38px;
+  cursor: pointer;
 }
 
 .autoSuggestion:hover,
 .highlight {
   cursor: pointer;
-  background: #61646e;
+  background: #515358;
   font-weight: bold;
-}
-
-.autoSuggestion {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.focused {
-  background-color: #f0f0f0; /* Highlight color for focused item */
 }

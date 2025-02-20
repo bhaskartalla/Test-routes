@@ -57,6 +57,36 @@ export type ResultType = {
   description: string
 }
 
+// export type CacheResultsType = {
+//   [key: string]: ResultType[]
+// }
+
+export type RecipeType = {
+  id: number
+  name: string
+  ingredients: string[]
+  instructions: string[]
+  prepTimeMinutes: number
+  cookTimeMinutes: number
+  servings: number
+  difficulty: string
+  cuisine: string
+  caloriesPerServing: number
+  tags: string[]
+  userId: number
+  image: string
+  rating: number
+  reviewCount: number
+  mealType: string[]
+}
+
+export type ResponseType = {
+  recipes: RecipeType[]
+  total: number
+  skip: number
+  limit: number
+}
+
 export type CacheResultsType = {
-  [key: string]: ResultType[]
+  [key: string]: RecipeType[]
 }
