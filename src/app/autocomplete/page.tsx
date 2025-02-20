@@ -24,7 +24,6 @@ const AutoComplete = () => {
 
   const handleKeyDown = (event: KeyboardEvent) => {
     const { metaKey, ctrlKey, key } = event
-    console.log('🚀 ~ handleKeyDown ~ event:', { metaKey, ctrlKey, key })
 
     if (key === 'Escape') {
       event.preventDefault()
@@ -72,7 +71,7 @@ const AutoComplete = () => {
   }
 
   useEffect(() => {
-    console.log('🚀 ~ AutoComplete ~ searchResults:', searchResults)
+    // console.log('🚀 ~ AutoComplete ~ searchResults:', searchResults)
     // console.log('🚀 ~ AutoComplete ~ cacheResults:', cacheResults)
     setShowAutoSearch(!!searchResults.recipes?.length || false)
   }, [searchResults, cacheResults])
