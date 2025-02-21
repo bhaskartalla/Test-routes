@@ -40,6 +40,9 @@ const App = () => {
         <li>
           <Link href='/autocomplete'>Auto Complete Search</Link>
         </li>
+        <li>
+          <Link href='/tab-form'>Tab Form</Link>
+        </li>
       </nav>
     </div>
   )
