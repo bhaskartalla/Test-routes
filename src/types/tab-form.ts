@@ -3,7 +3,6 @@ import { Dispatch, SetStateAction } from 'react'
 export type ConfigType = {
   name: string
   component: React.FC<any>
-  validate: Function
 }
 
 export type TabConfigType = ConfigType[]

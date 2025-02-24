@@ -19,6 +19,24 @@
   }
 }
 
+/* Set a default root font size */
+html {
+  font-size: 16px; /* 1rem = 16px */
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* Smaller font for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px; /* Even smaller font for very small screens */
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: #202124;
