@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from 'react'
+import { ComponentType, Dispatch, SetStateAction } from 'react'
 
 export type ConfigType = {
   name: string
-  component: React.FC<any>
+  component: ComponentType<any>
 }
 
 export type TabConfigType = ConfigType[]

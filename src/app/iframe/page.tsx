@@ -8,23 +8,20 @@ interface IframeProps {
 }
 
 const Iframe: React.FC<IframeProps> = ({
-  src = 'http://localhost:3000/react-webcam',
+  src = 'http://bfe.dev',
   title = 'Dummy Json',
   width = '100%',
-  height = '500px',
+  height = '100%',
 }) => {
   return (
-    <>
-      <div>External Websites</div>
-      <iframe
-        src={src}
-        title={title}
-        width={width}
-        height={height}
-        style={{ border: 'none' }}
-        loading='lazy'
-      ></iframe>
-    </>
+    <iframe
+      src={src}
+      title={title}
+      width={width}
+      height={height}
+      style={{ border: 'none' }}
+      loading='lazy'
+    ></iframe>
   )
 }
 
