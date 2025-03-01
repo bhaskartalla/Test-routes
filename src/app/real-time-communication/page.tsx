@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [longPollingMsg, setLongPollingMsg] = useState<string>('')
   const [sseMsg, setSseMsg] = useState<string>('')
   const [webSocketMsg, setWebSocketMsg] = useState<string>('')
+  const [chatMessage, setChatMessage] = useState<string>('')
 
   // 🌍 Long Polling Implementation
   const fetchLongPolling = async (): Promise<void> => {
@@ -57,6 +58,17 @@ const App: React.FC = () => {
     fetchLongPolling()
   }, [])
 
+  const handleChatMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('🚀 ~ handleChatMessage ~ event:', event.target.value)
+
+    setChatMessage(event.target.value)
+  }
+
+  const handleSendMessage = () => {
+    console.log('🚀 ~ handleChatMessage ~ event:')
+    socket.emit('websocket-message', chatMessage)
+  }
+
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1>📡 Real-Time Updates</h1>
@@ -66,9 +78,14 @@ const App: React.FC = () => {
       <p>
         <strong>Server-Sent Events (SSE):</strong> {sseMsg}
       </p>
-      <p>
+      <div>
+        <input
+          value={chatMessage}
+          onChange={handleChatMessage}
+        />
         <strong>WebSockets:</strong> {webSocketMsg}
-      </p>
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
     </div>
   )
 }

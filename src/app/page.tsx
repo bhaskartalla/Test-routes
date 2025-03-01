@@ -8,6 +8,7 @@ import {
   TabConfigType,
 } from '@/types/tab-form'
 import dynamic from 'next/dynamic'
+import MultiStepProgressBar from './progressbar/page'
 
 const Interest = dynamic(() => import('@/components/tab-form/Interests'))
 const Profile = dynamic(() => import('@/components/tab-form/Profile'))
@@ -94,6 +95,10 @@ const TabForm = () => {
     {
       name: 'WebcamComponent',
       component: WebcamComponent,
+    },
+    {
+      name: 'MultiStepProgressBar',
+      component: MultiStepProgressBar,
     },
     {
       name: 'Temp',
