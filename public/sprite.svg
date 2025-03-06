@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="home" viewBox="0 0 24 24">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+  </symbol>
+  
+  <symbol id="search" viewBox="0 0 24 24">
+    <path d="M10 2a8 8 0 0 1 8 8c0 1.8-.6 3.4-1.6 4.7l4.9 4.9-1.4 1.4-4.9-4.9A8 8 0 1 1 10 2z" />
+  </symbol>
+
+  <symbol id="previous" viewBox="0 0 24 24">
+    <path d="M15 18l-6-6 6-6" />
+  </symbol>
+
+  <symbol id="next" viewBox="0 0 24 24">
+    <path d="M9 18l6-6-6-6" />
+  </symbol>
+</svg>

@@ -1,0 +1,24 @@
+.sprite {
+  background-image: url('/icons.png'); /* Sprite sheet */
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+
+/* Individual sprite positions */
+.home {
+  background-position: 0px 0px; /* First icon */
+}
+
+.search {
+  background-position: -50px 0px; /* Second icon */
+}
+
+.next {
+  background-position: -100px 0px; /* Third icon */
+}
+
+.previous {
+  background-position: -150px 0px; /* Fourth icon */
+}

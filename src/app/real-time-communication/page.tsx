@@ -6,7 +6,7 @@ import { io, Socket } from 'socket.io-client'
 // 🌍 WebSocket Connection
 const socket: Socket = io('http://localhost:4000')
 
-const App: React.FC = () => {
+const Communication: React.FC = () => {
   // ✅ Define State Types
   const [longPollingMsg, setLongPollingMsg] = useState<string>('')
   const [sseMsg, setSseMsg] = useState<string>('')
@@ -90,4 +90,4 @@ const App: React.FC = () => {
   )
 }
 
-export default App
+export default Communication
