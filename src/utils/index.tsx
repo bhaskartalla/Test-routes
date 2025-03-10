@@ -28,3 +28,26 @@ export function permute(arr: Direction): Direction[] {
 
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
+
+export function getRandomInt(min: number, max: number) {
+  const minCeiled = Math.ceil(min)
+  const maxFloored = Math.floor(max)
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled) // The maximum is exclusive and the minimum is inclusive
+}
+
+export function makeid(isFolder: boolean) {
+  let result = '',
+    ext = ['.tsx', '.ts', '.css', '.json', '.jsx', '.js']
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const charactersLength = characters.length
+  let counter = 0
+  while (counter < getRandomInt(3, 6)) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    counter += 1
+  }
+  return (
+    result[0] +
+    result.substring(1).toLocaleLowerCase() +
+    (isFolder ? '' : ext[getRandomInt(0, 6)])
+  )
+}

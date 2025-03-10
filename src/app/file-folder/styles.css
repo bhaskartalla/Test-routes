@@ -1,0 +1,118 @@
+.ff-main {
+  border: 1px solid rebeccapurple;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.ff-container-wrap {
+  border: 1px solid aliceblue;
+}
+
+.ff-container {
+  /* border: 1px solid aliceblue; */
+  width: 300px;
+}
+
+.ff-container > * > div {
+  width: 100%;
+  padding-left: 20px;
+}
+
+.ff-heading {
+  border: 1px solid grey;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.ff-child {
+  /* border: 1px solid aliceblue; */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.ff-selected,
+.ff-child:hover {
+  color: green;
+}
+
+.chevron {
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid whitesmoke;
+  border-right: 2px solid whitesmoke;
+  display: inline-block;
+}
+
+.c-expand {
+  transform: rotate(45deg);
+}
+.c-collapse {
+  transform: rotate(135deg);
+}
+.ff-title {
+  padding: 0 !important;
+}
+
+.ff-controls {
+  display: flex;
+  gap: 4px;
+  justify-content: end;
+  cursor: default;
+  flex: 0;
+}
+
+.ff-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cccccc54;
+}
+
+.ff-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ff-icon:hover {
+  border: 1px solid white;
+  background: #cccccc54;
+}
+
+.ff-input {
+  background: transparent;
+  width: 100%;
+  height: 30px;
+  color: white;
+  outline: none;
+}
+
+.menu-items {
+  position: absolute;
+  width: 200px !important;
+  background: rgb(234, 223, 223);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+  padding: 5px;
+  z-index: 0;
+  border-radius: 4px;
+  color: black;
+}
+
+.menu-items-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
