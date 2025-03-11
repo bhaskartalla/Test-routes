@@ -13,11 +13,9 @@ import fileIcon from '@/assets/icons/file-icon.png'
 function List({
   tree,
   setTree,
-  setParentID,
 }: {
   tree: TreeNode[]
   setTree: Dispatch<SetStateAction<TreeNode[]>>
-  setParentID: Dispatch<SetStateAction<number>>
 }) {
   const [menuVisible, setMenuVisible] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
@@ -35,16 +33,24 @@ function List({
   }, [])
 
   const handleFFClick = (id: number) => {
-    setTree((prevTree) => {
+    setTree((prev) => {
+      function makeAllSelectionFalse(nodeList: TreeNode[]): TreeNode[] {
+        let res: TreeNode[] = []
+        for (let node of nodeList) {
+          if (node.isExpanded) node.isSelected = false
+          if (node.children)
+            node.children = makeAllSelectionFalse(node.children)
+          res.push(node)
+        }
+        return res
+      }
+
       function updateNode(node: TreeNode, parent = -1): TreeNode {
         if (node.id === id) {
           let newNode = { ...node }
           newNode.isSelected = true
-          setParentID(parent)
-          if (node.type === 'folder') {
-            newNode.isExpanded = !newNode.isExpanded
-            setParentID(node.id)
-          }
+          if (node.type === 'folder') newNode.isExpanded = !newNode.isExpanded
+
           return newNode
         }
         if (node.children) {
@@ -55,7 +61,7 @@ function List({
         }
         return { ...node, isSelected: false }
       }
-      return prevTree.map((ele) => updateNode(ele, -1))
+      return makeAllSelectionFalse(prev).map((ele) => updateNode(ele, -1))
     })
   }
 
@@ -164,7 +170,6 @@ function List({
             <List
               tree={node.children}
               setTree={setTree}
-              setParentID={setParentID}
             />
           )}
         </div>
@@ -189,7 +194,6 @@ function List({
 
 const FileFolder = () => {
   const [tree, setTree] = useState<TreeNode[]>(Tree)
-  const [parentID, setParentID] = useState(-1)
   const [newFFDetails, setNewFFDetails] = useState({
     inputVisible: false,
     value: '',
@@ -206,17 +210,21 @@ const FileFolder = () => {
     setTree((prev) => {
       let isOperationCompleted = false
       function updateTree(nodeList: TreeNode[]): TreeNode[] {
-        if (parentID === -1)
-          return [...nodeList, { ...newNode, id: getRandomInt(100, 999) }]
-
         let res: TreeNode[] = []
         for (let i = 0; i < nodeList.length; i++) {
           let node = nodeList[i]
 
-          if (node.id === parentID && node.children) {
-            node.children.push({ ...newNode, id: getRandomInt(100, 999) })
+          if (node.isSelected) {
             isOperationCompleted = true
-            return [...res, node, ...nodeList.slice(i + 1)]
+            if (node.children) {
+              node.children.push({ ...newNode, id: getRandomInt(100, 999) })
+              return [...res, ...nodeList.slice(i)]
+            }
+            return [
+              ...res,
+              ...nodeList.slice(i),
+              { ...newNode, id: getRandomInt(100, 999) },
+            ]
           }
           if (isOperationCompleted) return [...res, ...nodeList.slice(i)]
           if (node.children) node.children = updateTree(node.children)
@@ -274,7 +282,6 @@ const FileFolder = () => {
         <List
           tree={tree}
           setTree={setTree}
-          setParentID={setParentID}
         />
       </div>
     </main>
