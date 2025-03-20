@@ -1,3 +1,8 @@
+// For this nextjs page, getting the below error while building the application
+
+// Error
+// Error occurred prerendering page "/todo-list" TypeError: Cannot destructure property 'state' of '(0 , o.useContext)(...)' as it is undefined.
+
 'use client'
 import React, { useEffect, useState } from 'react'
 import useTodos from '../../state/hooks/useTodos'

@@ -1,9 +1,9 @@
 'use client'
-
 import React, { useRef, useEffect } from 'react'
 
 const WebcamComponent = () => {
-  const videoRef = useRef(null)
+  // Specify HTMLVideoElement as the type for the ref
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const startWebcam = async () => {
@@ -27,7 +27,8 @@ const WebcamComponent = () => {
     return () => {
       // Clean up by stopping the webcam when the component unmounts
       if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject
+        // Cast srcObject to MediaStream to access getTracks()
+        const stream = videoRef.current.srcObject as MediaStream
         const tracks = stream.getTracks()
 
         tracks.forEach((track) => track.stop())

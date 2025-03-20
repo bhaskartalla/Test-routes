@@ -46,18 +46,16 @@ const ProgressBar: React.FC<ProgressBarPropsType> = ({ stages }) => {
   )
 }
 
-const StageProgress: React.FC<StageProgressPropsType> = React.memo(
-  ({ progress }) => {
-    return (
-      <div className='stage-bar'>
-        <div
-          className='fill'
-          style={{ transform: `translateX(${progress - 100}%)` }}
-        ></div>
-      </div>
-    )
-  }
-)
+const StageProgress: React.FC<StageProgressPropsType> = ({ progress }) => {
+  return (
+    <div className='stage-bar'>
+      <div
+        className='fill'
+        style={{ transform: `translateX(${progress - 100}%)` }}
+      ></div>
+    </div>
+  )
+}
 
 const MultiStepProgressBar: React.FC = () => {
   const [stages, setStages] = useState<StageType[]>([

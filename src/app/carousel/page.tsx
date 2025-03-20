@@ -1,13 +1,10 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import './Carousel.css'
+import { CarouselProps } from '@/types/carousel'
 
-interface CarouselProps {
-  images: string[]
-  fallbackImage: string
-}
-
-const Carousel: React.FC<CarouselProps> = () => {
+const Carousel = () => {
   const images = [
     'https://loremflickr.com/cache/resized/defaultImage.small_200_200_nofilter.jpg',
     'https://loremflickr.com/cache/resized/65535_54044987934_7fd42f72d6_n_200_200_nofilter.jpg',
