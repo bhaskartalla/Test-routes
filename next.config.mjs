@@ -24,6 +24,10 @@ const nextConfig = {
       },
     ]
   },
+
+  images: {
+    domains: ['i.redd.it'], // Add this line to allow images from i.redd.it
+  },
 }
 
 export default nextConfig
