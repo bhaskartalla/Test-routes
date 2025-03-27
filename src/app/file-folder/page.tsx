@@ -24,6 +24,10 @@ function List({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      console.log('🚀 ~ handleClickOutside ~ event:', {
+        menuRef: menuRef.current,
+        event: event.target,
+      })
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuVisible(false)
       }
@@ -36,8 +40,9 @@ function List({
     setTree((prev) => {
       function makeAllSelectionFalse(nodeList: TreeNode[]): TreeNode[] {
         let res: TreeNode[] = []
+
         for (let node of nodeList) {
-          if (node.isExpanded) node.isSelected = false
+          node.isSelected = false
           if (node.children)
             node.children = makeAllSelectionFalse(node.children)
           res.push(node)
@@ -45,23 +50,21 @@ function List({
         return res
       }
 
-      function updateNode(node: TreeNode, parent = -1): TreeNode {
+      function updateNode(node: TreeNode): TreeNode {
         if (node.id === id) {
           let newNode = { ...node }
           newNode.isSelected = true
           if (node.type === 'folder') newNode.isExpanded = !newNode.isExpanded
-
           return newNode
         }
         if (node.children) {
-          const updatedChildren = node.children.map((ele) =>
-            updateNode(ele, node.id)
-          )
+          const updatedChildren = node.children.map((ele) => updateNode(ele))
           return { ...node, children: updatedChildren, isSelected: false }
         }
         return { ...node, isSelected: false }
       }
-      return makeAllSelectionFalse(prev).map((ele) => updateNode(ele, -1))
+
+      return makeAllSelectionFalse(prev).map((ele) => updateNode(ele))
     })
   }
 
